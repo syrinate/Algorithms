@@ -17,33 +17,6 @@ struct BoardState {
 
 static int step_counter = 0;
 
-vector<string> get_neighbors(const string& current) {
-    vector<string> neighbors;
-    const size_t zero_pos = current.find('0');
-    if (zero_pos == string::npos) {
-        throw runtime_error("Invalid state: no empty position (0) found");
-    }
-
-    const int x = static_cast<int>(zero_pos % 3);
-    const int y = static_cast<int>(zero_pos / 3);
-
-    const int dx[] = { -1, 1, 0, 0 };
-    const int dy[] = { 0, 0, -1, 1 };
-
-    for (int i = 0; i < 4; i++) {
-        const int nx = x + dx[i];
-        const int ny = y + dy[i];
-
-        if (nx >= 0 && nx < 3 && ny >= 0 && ny < 3) {
-            string next = current;
-            const size_t swap_pos = static_cast<size_t>(ny * 3 + nx);
-            swap(next[zero_pos], next[swap_pos]);
-            neighbors.push_back(next);
-        }
-    }
-    return neighbors;
-}
-
 vector<string> reconstruct_path(const vector<BoardState>& states, int goal_idx) {
     vector<string> path;
     int current = goal_idx;
